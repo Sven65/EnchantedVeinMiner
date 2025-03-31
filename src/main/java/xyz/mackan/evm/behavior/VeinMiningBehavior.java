@@ -29,10 +29,6 @@ public class VeinMiningBehavior {
         return state.isIn(ConventionalBlockTags.ORES);
     }
 
-    public static boolean isLog(BlockState state) {
-        return state.isIn(ConventionalBlockTags.);
-    }
-
     //world, player, pos, state, entity
     public static boolean onBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity) {
         EnchantedVeinMiner.LOGGER.info("Block broken");
