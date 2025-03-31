@@ -30,7 +30,6 @@ public class TreeFellerEnchantment extends Enchantment {
 
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
-        EnchantedVeinMiner.LOGGER.info(String.format("Is item axe? %s", stack.isIn(ItemTags.AXES)));
         return stack.isIn(ItemTags.AXES);
     }
 }
