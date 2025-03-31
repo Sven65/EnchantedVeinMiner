@@ -4,6 +4,8 @@ import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.mackan.evm.registry.ModEnchantments;
+import xyz.mackan.evm.registry.ModItems;
 
 public class EnchantedVeinMiner implements ModInitializer {
 	public static final String MOD_ID = "enchanted-vein-miner";
@@ -13,6 +15,7 @@ public class EnchantedVeinMiner implements ModInitializer {
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
+
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -20,5 +23,8 @@ public class EnchantedVeinMiner implements ModInitializer {
 		// Proceed with mild caution.
 
 		LOGGER.info("Hello Fabric world!");
+
+		ModEnchantments.registerEnchantments();
+		ModItems.registerItems();
 	}
 }
