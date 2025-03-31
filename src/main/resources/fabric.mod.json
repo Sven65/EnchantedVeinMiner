@@ -3,9 +3,9 @@
 	"id": "enchanted-vein-miner",
 	"version": "${version}",
 	"name": "Enchanted Vein Miner",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Adds Vein Miner and Tree Feller enchantments for faster mining and woodcutting.",
 	"authors": [
-		"Me!"
+		"Mackan"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
@@ -25,20 +25,12 @@
 			"xyz.mackan.evm.EnchantedVeinMinerDataGenerator"
 		]
 	},
-	"mixins": [
-		"enchanted-vein-miner.mixins.json",
-		{
-			"config": "enchanted-vein-miner.client.mixins.json",
-			"environment": "client"
-		}
-	],
+	"mixins": [],
 	"depends": {
 		"fabricloader": ">=0.16.10",
 		"minecraft": "~1.20.1",
 		"java": ">=17",
 		"fabric-api": "*"
 	},
-	"suggests": {
-		"another-mod": "*"
-	}
+	"suggests": {}
 }

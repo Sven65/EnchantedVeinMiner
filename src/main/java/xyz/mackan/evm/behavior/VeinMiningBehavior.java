@@ -6,22 +6,16 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
+import net.minecraft.item.PickaxeItem;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
-import xyz.mackan.evm.EnchantedVeinMiner;
 import xyz.mackan.evm.registry.ModEnchantments;
 import xyz.mackan.evm.util.BlockExplorer;
 
-import java.util.HashSet;
 import java.util.Set;
-import java.util.Stack;
 
 public class VeinMiningBehavior {
 
@@ -29,10 +23,20 @@ public class VeinMiningBehavior {
         return state.isIn(ConventionalBlockTags.ORES);
     }
 
+    public static boolean isLog(BlockState state) {
+        return state.isIn(BlockTags.LOGS);
+    }
+
+    public static boolean isVeinMinePickaxe(ItemStack tool) {
+        return (tool.getItem() instanceof PickaxeItem) && EnchantmentHelper.getLevel(ModEnchantments.VEIN_MINING, tool) > 0;
+    }
+
+    public static boolean isTreeFellerAxe(ItemStack tool) {
+        return (tool.getItem() instanceof AxeItem) && EnchantmentHelper.getLevel(ModEnchantments.TREE_FELLER, tool) > 0;
+    }
+
     //world, player, pos, state, entity
     public static boolean onBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity) {
-        EnchantedVeinMiner.LOGGER.info("Block broken");
-
         // Only trigger the behavior if the player is not in creative mode
         if (player.isCreative()) return true;
 
@@ -40,15 +44,12 @@ public class VeinMiningBehavior {
         Block block = state.getBlock();
         if (block == null) return true;
 
-        if (!isOre(state)) return true;
-
-        EnchantedVeinMiner.LOGGER.info("Mining vein");
-
-
-        Set<BlockPos> vein = BlockExplorer.findAdjacentBlocks(world, pos);
         ItemStack tool = player.getMainHandStack();
 
-        if (EnchantmentHelper.getLevel(ModEnchantments.VEIN_MINING, tool) == 0) return true;
+        if (isOre(state) && !isVeinMinePickaxe(tool)) return true;
+        if (isLog(state) && !isTreeFellerAxe(tool)) return true;
+
+        Set<BlockPos> vein = BlockExplorer.findAdjacentBlocks(world, pos);
 
         breakBlocks(world, player, vein, tool);
 

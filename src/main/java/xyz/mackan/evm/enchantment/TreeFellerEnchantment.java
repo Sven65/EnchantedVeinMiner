@@ -3,12 +3,12 @@ package xyz.mackan.evm.enchantment;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.ItemTags;
 import xyz.mackan.evm.EnchantedVeinMiner;
 
-public class VeinMinerEnchantment extends Enchantment {
-    public VeinMinerEnchantment(Rarity weight) {
+public class TreeFellerEnchantment extends Enchantment {
+    public TreeFellerEnchantment(Enchantment.Rarity weight) {
         super(weight, EnchantmentTarget.DIGGER, new EquipmentSlot[] { EquipmentSlot.MAINHAND });
     }
 
@@ -30,7 +30,7 @@ public class VeinMinerEnchantment extends Enchantment {
 
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
-        EnchantedVeinMiner.LOGGER.info(String.format("Is item pickaxe? %s", stack.isIn(ItemTags.PICKAXES)));
-        return stack.isIn(ItemTags.PICKAXES);
+        EnchantedVeinMiner.LOGGER.info(String.format("Is item axe? %s", stack.isIn(ItemTags.AXES)));
+        return stack.isIn(ItemTags.AXES);
     }
 }

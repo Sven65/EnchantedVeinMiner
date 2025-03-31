@@ -15,10 +15,6 @@ public class BlockExplorer {
         Stack<BlockPos> stack = new Stack<>();
 
         BlockState startBlockState = world.getBlockState(startPos);
-
-        EnchantedVeinMiner.LOGGER.info(String.format("startBlockState %s", startBlockState));
-
-
         stack.push(startPos);
 
         while (!stack.isEmpty()) {
@@ -31,16 +27,7 @@ public class BlockExplorer {
             visited.add(pos);
 
             for (BlockPos neighbor : getAdjacentPositions(pos)) {
-                EnchantedVeinMiner.LOGGER.info(String.format("Checking block at %s", neighbor));
-                boolean isSameBlock = world.getBlockState(neighbor).equals(startBlockState);
-                EnchantedVeinMiner.LOGGER.info(String.format("Is same block %s", isSameBlock));
-
-                EnchantedVeinMiner.LOGGER.info(String.format("block state %s", world.getBlockState(neighbor)));
-
-
-                if (isSameBlock) {
-                    EnchantedVeinMiner.LOGGER.info(String.format("ADDING at %s", neighbor));
-
+                if (world.getBlockState(neighbor).equals(startBlockState)) {
                     stack.push(neighbor);
                 }
             }
