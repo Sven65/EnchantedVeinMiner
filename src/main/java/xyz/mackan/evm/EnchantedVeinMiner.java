@@ -2,8 +2,10 @@ package xyz.mackan.evm;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.mackan.evm.behavior.VeinMiningBehavior;
 import xyz.mackan.evm.registry.ModEnchantments;
 import xyz.mackan.evm.registry.ModItems;
 
@@ -26,5 +28,7 @@ public class EnchantedVeinMiner implements ModInitializer {
 
 		ModEnchantments.registerEnchantments();
 		ModItems.registerItems();
+
+		PlayerBlockBreakEvents.AFTER.register(VeinMiningBehavior::onBlockBreak);
 	}
 }
