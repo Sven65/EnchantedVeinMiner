@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.Stack;
 
 public class BlockExplorer {
-    public static Set<BlockPos> findAdjacentBlocks(World world, BlockPos startPos)  {
+    public static Set<BlockPos> findAdjacentBlocks(World world, BlockPos startPos, int limit)  {
         Set<BlockPos> visited = new HashSet<>();
         Stack<BlockPos> stack = new Stack<>();
 
@@ -27,6 +27,11 @@ public class BlockExplorer {
             visited.add(pos);
 
             for (BlockPos neighbor : getAdjacentPositions(pos)) {
+                EnchantedVeinMiner.LOGGER.info(String.format("Visit is %s/%s", visited.size(), limit));
+                if (visited.size() >= limit) {
+                    break;
+                }
+
                 if (world.getBlockState(neighbor).equals(startBlockState)) {
                     stack.push(neighbor);
                 }

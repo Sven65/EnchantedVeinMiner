@@ -11,6 +11,7 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import xyz.mackan.evm.EnchantedVeinMiner;
 import xyz.mackan.evm.registry.ModEnchantments;
 import xyz.mackan.evm.util.BlockExplorer;
 
@@ -45,21 +46,31 @@ public class VeinMiningBehavior {
     //world, player, pos, state, entity
     public static boolean onBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity) {
         if (player.isCreative()) return true;
-
         ItemStack tool = player.getMainHandStack();
 
         if (tool.isEmpty()) return true;
 
-        if (isOre(state) && !isVeinMinePickaxe(tool)) return true;
-        if (isLog(state) && !isTreeFellerAxe(tool)) return true;
-        if (isExcavatable(state) && !isExcavatorShovel(tool)) return true;
+        // Check if the block is an ore and tool is a vein miner pickaxe
+        boolean isOre = isOre(state);
+        boolean isVeinPick = isVeinMinePickaxe(tool);
 
-        if (!isOre(state) && !isLog(state) && !isExcavatable(state)) return true;
+        // Check if the block is a log and tool is a tree feller axe
+        boolean isLog = isLog(state);
+        boolean isTreeAxe = isTreeFellerAxe(tool);
 
+        // Check if the block is excavatable and tool is an excavator shovel
+        boolean isExcavatable = isExcavatable(state);
+        boolean isExcavator = isExcavatorShovel(tool);
 
-        Set<BlockPos> vein = BlockExplorer.findAdjacentBlocks(world, pos);
+        // Ensure only one tool type is processed at a time
+        if ((isOre && isVeinPick) || (isLog && isTreeAxe) || (isExcavatable && isExcavator)) {
 
-        breakBlocks(world, player, vein, tool);
+            // TODO: Make this configurable
+            Set<BlockPos> vein = BlockExplorer.findAdjacentBlocks(world, pos, 250);
+            breakBlocks(world, player, vein, tool);
+
+            return true;
+        }
 
         return true;
     }
