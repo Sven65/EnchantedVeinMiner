@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "IBG",
+    " D "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stone_shovel"
+    },
+    "I": {
+      "item": "minecraft:iron_shovel"
+    },
+    "B": {
+      "item": "minecraft:book"
+    },
+    "G": {
+      "item": "minecraft:golden_shovel"
+    },
+    "D": {
+      "item": "minecraft:diamond_shovel"
+    }
+  },
+  "result": {
+    "item": "enchanted-vein-miner:excavator_redeemable",
+    "count": 1
+  }
+}

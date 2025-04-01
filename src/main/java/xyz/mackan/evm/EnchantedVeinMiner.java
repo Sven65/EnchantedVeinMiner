@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.mackan.evm.behavior.VeinMiningBehavior;
 import xyz.mackan.evm.registry.ModEnchantments;
+import xyz.mackan.evm.registry.ModItems;
 
 public class EnchantedVeinMiner implements ModInitializer {
 	public static final String MOD_ID = "enchanted-vein-miner";
@@ -24,6 +25,7 @@ public class EnchantedVeinMiner implements ModInitializer {
 		// Proceed with mild caution.
 
 		ModEnchantments.registerEnchantments();
+		ModItems.registerItems();
 
 		PlayerBlockBreakEvents.BEFORE.register(VeinMiningBehavior::onBlockBreak);
 	}

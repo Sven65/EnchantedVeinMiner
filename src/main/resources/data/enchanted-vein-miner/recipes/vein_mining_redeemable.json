@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "IBG",
+    " D "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stone_pickaxe"
+    },
+    "I": {
+      "item": "minecraft:iron_pickaxe"
+    },
+    "B": {
+      "item": "minecraft:book"
+    },
+    "G": {
+      "item": "minecraft:golden_pickaxe"
+    },
+    "D": {
+      "item": "minecraft:diamond_pickaxe"
+    }
+  },
+  "result": {
+    "item": "enchanted-vein-miner:vein_mining_redeemable",
+    "count": 1
+  }
+}

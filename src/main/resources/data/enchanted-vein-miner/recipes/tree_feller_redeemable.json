@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "IBG",
+    " D "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stone_axe"
+    },
+    "I": {
+      "item": "minecraft:iron_axe"
+    },
+    "B": {
+      "item": "minecraft:book"
+    },
+    "G": {
+      "item": "minecraft:golden_axe"
+    },
+    "D": {
+      "item": "minecraft:diamond_axe"
+    }
+  },
+  "result": {
+    "item": "enchanted-vein-miner:tree_feller_redeemable",
+    "count": 1
+  }
+}

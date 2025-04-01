@@ -1,5 +1,8 @@
 {
   "enchantment.enchanted-vein-miner.vein_mining": "Vein Miner",
   "enchantment.enchanted-vein-miner.tree_feller": "Tree Feller",
-  "enchantment.enchanted-vein-miner.excavator": "Excavator"
+  "enchantment.enchanted-vein-miner.excavator": "Excavator",
+  "item.enchanted-vein-miner.excavator_redeemable": "Excavator Redeemable",
+  "item.enchanted-vein-miner.tree_feller_redeemable": "Tree Feller Redeemable",
+  "item.enchanted-vein-miner.vein_mining_redeemable": "Vein Miner Redeemable"
 }
