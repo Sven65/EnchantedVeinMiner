@@ -47,20 +47,6 @@ These enchantments can be obtained through:
 4. Each mined block consumes 1 durability from your tool
 
 
-## For Developers
-
-If you want to include EnchantedVeinMiner in your mod pack or develop an addon:
-
-```gradle
-repositories {
-    maven { url "https://maven.example.com/repository/xyz/mackan" }
-}
-
-dependencies {
-    modImplementation "xyz.mackan:enchanted-vein-miner:1.0.0"
-}
-```
-
 ## License
 
 This mod is available under the MIT License. See the LICENSE file for details.
