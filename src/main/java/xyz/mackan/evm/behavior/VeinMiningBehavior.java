@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import xyz.mackan.evm.EnchantedVeinMiner;
 import xyz.mackan.evm.registry.ModEnchantments;
 import xyz.mackan.evm.util.BlockExplorer;
+import xyz.mackan.evm.util.TreeDetector;
 
 import java.util.Set;
 
@@ -66,7 +67,7 @@ public class VeinMiningBehavior {
         if ((isOre && isVeinPick) || (isLog && isTreeAxe) || (isExcavatable && isExcavator)) {
 
             // TODO: Make this configurable
-            Set<BlockPos> vein = BlockExplorer.findAdjacentBlocks(world, pos, 250);
+            Set<BlockPos> vein = isLog ? TreeDetector.findLogsAndBranches(world, pos, 250, 0, 3) : BlockExplorer.findAdjacentBlocks(world, pos, 250, 0);
             breakBlocks(world, player, vein, tool);
 
             return true;
