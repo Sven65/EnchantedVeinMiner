@@ -1,18 +1,11 @@
 package xyz.mackan.evm.behavior;
 
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import xyz.mackan.evm.EnchantedVeinMiner;
-import xyz.mackan.evm.registry.ModEnchantments;
 import xyz.mackan.evm.util.BlockExplorer;
 import xyz.mackan.evm.util.BlockHelper;
 import xyz.mackan.evm.util.ToolHelper;
@@ -47,6 +40,7 @@ public class VeinMiningBehavior {
 
             // TODO: Make this configurable
             Set<BlockPos> vein = isLog ? TreeDetector.findLogsAndBranches(world, pos, 250, 3) : BlockExplorer.findAdjacentBlocks(world, pos, 250);
+
             breakBlocks(world, player, vein, tool);
 
             return true;

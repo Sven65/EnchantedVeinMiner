@@ -28,7 +28,7 @@ public class BlockExplorer {
                     break;
                 }
 
-                if (world.getBlockState(neighbor).equals(startBlockState)) {
+                if (world.getBlockState(neighbor).getBlock().equals(startBlockState.getBlock())) {
                     stack.push(neighbor);
                 }
             }
