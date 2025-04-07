@@ -5,7 +5,6 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.registry.tag.ItemTags;
-import xyz.mackan.evm.EnchantedVeinMiner;
 
 public class VeinMinerEnchantment extends Enchantment {
     public VeinMinerEnchantment(Rarity weight) {

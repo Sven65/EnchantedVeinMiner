@@ -15,7 +15,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-import java.rmi.registry.Registry;
 import java.util.List;
 
 public class RedeemableEnchantedBook extends Item {

@@ -5,7 +5,6 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.ItemTags;
-import xyz.mackan.evm.EnchantedVeinMiner;
 
 public class ExcavatorEnchantment extends Enchantment {
     public ExcavatorEnchantment(Rarity weight) {

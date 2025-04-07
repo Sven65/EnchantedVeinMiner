@@ -1,10 +1,8 @@
 package xyz.mackan.evm.util;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import xyz.mackan.evm.EnchantedVeinMiner;
 
 import java.util.*;
 
@@ -26,7 +24,6 @@ public class BlockExplorer {
             visited.add(pos);
 
             for (BlockPos neighbor : getAdjacentPositions(pos)) {
-                EnchantedVeinMiner.LOGGER.info(String.format("Visit is %s/%s", visited.size(), limit));
                 if (visited.size() >= limit) {
                     break;
                 }
