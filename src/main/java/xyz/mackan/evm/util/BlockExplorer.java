@@ -7,8 +7,8 @@ import net.minecraft.world.World;
 import java.util.*;
 
 public class BlockExplorer {
-    public static Set<BlockPos> findAdjacentBlocks(World world, BlockPos startPos, int limit)  {
-        Set<BlockPos> visited = new HashSet<>();
+    public static List<BlockPos> findAdjacentBlocks(World world, BlockPos startPos, int limit)  {
+        List<BlockPos> visited = new ArrayList<>();
         Stack<BlockPos> stack = new Stack<>();
 
         BlockState startBlockState = world.getBlockState(startPos);

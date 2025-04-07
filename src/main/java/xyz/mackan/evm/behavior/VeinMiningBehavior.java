@@ -6,12 +6,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import xyz.mackan.evm.EnchantedVeinMiner;
 import xyz.mackan.evm.util.BlockExplorer;
 import xyz.mackan.evm.util.BlockHelper;
 import xyz.mackan.evm.util.ToolHelper;
 import xyz.mackan.evm.util.TreeDetector;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VeinMiningBehavior {
 
@@ -38,10 +40,23 @@ public class VeinMiningBehavior {
         // Ensure only one tool type is processed at a time
         if ((isOre && isVeinPick) || (isLog && isTreeAxe) || (isExcavatable && isExcavator)) {
 
-            // TODO: Make this configurable
-            Set<BlockPos> vein = isLog ? TreeDetector.findLogsAndBranches(world, pos, 250, 3) : BlockExplorer.findAdjacentBlocks(world, pos, 250);
+            List<BlockPos> vein = new ArrayList<>();
 
-            breakBlocks(world, player, vein, tool);
+            if (isLog) {
+                TreeDetector.Tree tree = TreeDetector.findTree(world, pos);
+
+                vein = tree.logs;
+
+                breakBlocks(world, player, tree.leaves, tool, false, false);
+
+                EnchantedVeinMiner.LOGGER.info("Found tree. Logs:" + tree.logs + ", Leaves: " + tree.leaves + ", attachements: " + tree.attachments);
+            } else {
+                // TODO: Make this configurable
+                vein = BlockExplorer.findAdjacentBlocks(world, pos, 250);
+            }
+
+            breakBlocks(world, player, vein, tool, true, true);
+
 
             return true;
         }
@@ -49,18 +64,19 @@ public class VeinMiningBehavior {
         return true;
     }
 
-    public static void breakBlocks(World world, PlayerEntity player, Set<BlockPos> positions, ItemStack tool) {
+    public static void breakBlocks(World world, PlayerEntity player, List<BlockPos> positions, ItemStack tool,
+                                   boolean damageTool, boolean checkSuitable) {
         for (BlockPos pos : positions) {
             if (world.isAir(pos)) continue;
 
             BlockState blockState = world.getBlockState(pos);
-            if (!tool.isSuitableFor(blockState)) continue;
+            if (checkSuitable && !tool.isSuitableFor(blockState)) continue;
 
             // Break the block as if the player mined it
             world.breakBlock(pos, true, player);
 
             // Reduce durability (1 per block, adjust for enchantments)
-            tool.damage(1, player, (p) -> p.sendToolBreakStatus(player.getActiveHand()));
+            if (damageTool) tool.damage(1, player, (p) -> p.sendToolBreakStatus(player.getActiveHand()));
 
             // Stop if the tool breaks
             if (tool.isEmpty()) {
