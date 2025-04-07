@@ -14,35 +14,14 @@ import net.minecraft.world.World;
 import xyz.mackan.evm.EnchantedVeinMiner;
 import xyz.mackan.evm.registry.ModEnchantments;
 import xyz.mackan.evm.util.BlockExplorer;
+import xyz.mackan.evm.util.BlockHelper;
+import xyz.mackan.evm.util.ToolHelper;
 import xyz.mackan.evm.util.TreeDetector;
 
 import java.util.Set;
 
 public class VeinMiningBehavior {
 
-    public static boolean isOre(BlockState state) {
-        return state.isIn(ConventionalBlockTags.ORES);
-    }
-
-    public static boolean isLog(BlockState state) {
-        return state.isIn(BlockTags.LOGS);
-    }
-
-    public static boolean isExcavatable(BlockState state) {
-        return isOre(state) || state.getBlock() == Blocks.CLAY;
-    }
-
-    public static boolean isVeinMinePickaxe(ItemStack tool) {
-        return (tool.isIn(ItemTags.PICKAXES)) && EnchantmentHelper.getLevel(ModEnchantments.VEIN_MINING, tool) > 0;
-    }
-
-    public static boolean isTreeFellerAxe(ItemStack tool) {
-        return (tool.isIn(ItemTags.AXES)) && EnchantmentHelper.getLevel(ModEnchantments.TREE_FELLER, tool) > 0;
-    }
-
-    public static boolean isExcavatorShovel(ItemStack tool) {
-        return (tool.isIn(ItemTags.SHOVELS)) && EnchantmentHelper.getLevel(ModEnchantments.EXCAVATOR, tool) > 0;
-    }
 
     //world, player, pos, state, entity
     public static boolean onBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity) {
@@ -52,22 +31,22 @@ public class VeinMiningBehavior {
         if (tool.isEmpty()) return true;
 
         // Check if the block is an ore and tool is a vein miner pickaxe
-        boolean isOre = isOre(state);
-        boolean isVeinPick = isVeinMinePickaxe(tool);
+        boolean isOre = BlockHelper.isOre(state);
+        boolean isVeinPick = ToolHelper.isVeinMinePickaxe(tool);
 
         // Check if the block is a log and tool is a tree feller axe
-        boolean isLog = isLog(state);
-        boolean isTreeAxe = isTreeFellerAxe(tool);
+        boolean isLog = BlockHelper.isLog(state);
+        boolean isTreeAxe = ToolHelper.isTreeFellerAxe(tool);
 
         // Check if the block is excavatable and tool is an excavator shovel
-        boolean isExcavatable = isExcavatable(state);
-        boolean isExcavator = isExcavatorShovel(tool);
+        boolean isExcavatable = BlockHelper.isExcavatable(state);
+        boolean isExcavator = ToolHelper.isExcavatorShovel(tool);
 
         // Ensure only one tool type is processed at a time
         if ((isOre && isVeinPick) || (isLog && isTreeAxe) || (isExcavatable && isExcavator)) {
 
             // TODO: Make this configurable
-            Set<BlockPos> vein = isLog ? TreeDetector.findLogsAndBranches(world, pos, 250, 0, 3) : BlockExplorer.findAdjacentBlocks(world, pos, 250, 0);
+            Set<BlockPos> vein = isLog ? TreeDetector.findLogsAndBranches(world, pos, 250, 3) : BlockExplorer.findAdjacentBlocks(world, pos, 250, 0);
             breakBlocks(world, player, vein, tool);
 
             return true;

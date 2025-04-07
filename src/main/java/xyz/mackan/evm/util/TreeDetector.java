@@ -1,50 +1,13 @@
 package xyz.mackan.evm.util;
 
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import xyz.mackan.evm.EnchantedVeinMiner;
-import xyz.mackan.evm.behavior.VeinMiningBehavior;
-
 import java.util.*;
 
 public class TreeDetector {
-    private static boolean isLeaf(BlockState state) {
-        return state.isIn(BlockTags.LEAVES);
-    }
-
-    private static BlockPos findMatchingBlock(World world, BlockPos start, Block targetBlock, Set<BlockPos> visited, int maxDistance) {
-        Queue<BlockPos> queue = new ArrayDeque<>();
-        Set<BlockPos> seen = new HashSet<>();
-        queue.add(start);
-        seen.add(start);
-
-        int distance = 0;
-
-        while (!queue.isEmpty() && distance < maxDistance) {
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
-                BlockPos pos = queue.poll();
-                for (BlockPos adj : getAdjacentPositions(pos)) {
-                    if (visited.contains(adj) || !seen.add(adj)) continue;
-
-                    BlockState state = world.getBlockState(adj);
-                    if (state.getBlock() == targetBlock) return adj;
-
-                    queue.add(adj);
-                }
-            }
-            distance++;
-        }
-
-        return null;
-    }
-
-    public static Set<BlockPos> findLogsAndBranches(World world, BlockPos startPos, int limit, int jumpDistance, int searchRadius) {
+    public static Set<BlockPos> findLogsAndBranches(World world, BlockPos startPos, int limit, int searchRadius) {
         Set<BlockPos> visited = new HashSet<>();
         Queue<BlockPos> queue = new ArrayDeque<>();
 
@@ -69,7 +32,7 @@ public class TreeDetector {
 
                     // If we've reached the limit, break early
                     if (visited.size() >= limit) break;
-                } else if (isLeaf(neighborState)) {
+                } else if (BlockHelper.isLeaf(neighborState)) {
                     // If it's leaves, check for logs within the crown
                     Set<BlockPos> logsInCrown = findLogsSurroundedByLeaves(world, neighbor, searchRadius);
                     visited.addAll(logsInCrown);
@@ -87,10 +50,8 @@ public class TreeDetector {
 
         // Scan within the radius around the leaf block for logs
         for (BlockPos pos : getAdjacentPositionsInRadius(startPos, searchRadius)) {
-            EnchantedVeinMiner.LOGGER.info("Checking state at" + pos);
-
             BlockState state = world.getBlockState(pos);
-            if (VeinMiningBehavior.isLog(state)) {
+            if (BlockHelper.isLog(state)) {
                 // If we find a log, check if it's surrounded by leaves
                 if (isMajoritySurroundedByLeaves(world, pos)) {
                     logsFound.add(pos);
@@ -105,31 +66,26 @@ public class TreeDetector {
     private static boolean isMajoritySurroundedByLeaves(World world, BlockPos logPos) {
         int leafCount = 0;
 
-        // Check all 6 adjacent positions (up, down, north, south, west, east)
         for (BlockPos adj : getAdjacentPositionsIncludingDiagonals(logPos)) {
-            EnchantedVeinMiner.LOGGER.info("Checking block at" + adj);
             BlockState state = world.getBlockState(adj);
-            if (isLeaf(state)) {
+            if (BlockHelper.isLeaf(state)) {
                 leafCount++;
             }
         }
 
-        // If at least 3 sides are covered by leaves, return true
         return leafCount >= 3;
     }
 
     // Check for trunk logs (vertical alignment) and branch logs (horizontal/angled)
     private static boolean isTrunkLog(World world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
-        return VeinMiningBehavior.isLog(state) && (isVerticallyAligned(world, pos) || isBranchLog(world, pos));
+        return BlockHelper.isLog(state) && (isVerticallyAligned(world, pos) || isBranchLog(world, pos));
     }
 
     // Check if a log is vertically aligned (for trunk detection)
     private static boolean isVerticallyAligned(World world, BlockPos pos) {
-        return VeinMiningBehavior.isLog(world.getBlockState(pos.up())) || VeinMiningBehavior.isLog(world.getBlockState(pos.down()));
+        return BlockHelper.isLog(world.getBlockState(pos.up())) || BlockHelper.isLog(world.getBlockState(pos.down()));
     }
-
-
 
     // Check if a log is part of a branch (not vertical, but close to trunk)
     private static boolean isBranchLog(World world, BlockPos pos) {
@@ -140,7 +96,7 @@ public class TreeDetector {
         }
 
         return adjacentPositions.stream()
-                .anyMatch(adj -> VeinMiningBehavior.isLog(world.getBlockState(adj)));
+                .anyMatch(adj -> BlockHelper.isLog(world.getBlockState(adj)));
     }
 
     // Get all 26 positions in a 3x3x3 cube around the given block (including diagonals and vertical diagonals)
