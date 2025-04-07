@@ -46,7 +46,7 @@ public class VeinMiningBehavior {
         if ((isOre && isVeinPick) || (isLog && isTreeAxe) || (isExcavatable && isExcavator)) {
 
             // TODO: Make this configurable
-            Set<BlockPos> vein = isLog ? TreeDetector.findLogsAndBranches(world, pos, 250, 3) : BlockExplorer.findAdjacentBlocks(world, pos, 250, 0);
+            Set<BlockPos> vein = isLog ? TreeDetector.findLogsAndBranches(world, pos, 250, 3) : BlockExplorer.findAdjacentBlocks(world, pos, 250);
             breakBlocks(world, player, vein, tool);
 
             return true;
