@@ -37,6 +37,8 @@ public class VeinMiningBehavior {
         boolean isExcavatable = BlockHelper.isExcavatable(state);
         boolean isExcavator = ToolHelper.isExcavatorShovel(tool);
 
+
+
         // Ensure only one tool type is processed at a time
         if ((isOre && isVeinPick) || (isLog && isTreeAxe) || (isExcavatable && isExcavator)) {
 

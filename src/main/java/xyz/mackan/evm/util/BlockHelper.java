@@ -27,12 +27,18 @@ public class BlockHelper {
             Blocks.MOSS_CARPET
     ));
 
+    public static final List<Block> LARGE_MUSHROOM_BLOCKS = new ArrayList<>(Arrays.asList(
+            Blocks.BROWN_MUSHROOM_BLOCK,
+            Blocks.RED_MUSHROOM_BLOCK,
+            Blocks.MUSHROOM_STEM
+    ));
+
     public static boolean isOre(BlockState state) {
         return state.isIn(ConventionalBlockTags.ORES);
     }
 
     public static boolean isLog(BlockState state) {
-        return state.isIn(BlockTags.LOGS) || state.getBlock().equals(Blocks.MANGROVE_ROOTS);
+        return state.isIn(BlockTags.LOGS) || state.getBlock().equals(Blocks.MANGROVE_ROOTS) || LARGE_MUSHROOM_BLOCKS.contains(state.getBlock());
     }
 
     public static boolean isExcavatable(BlockState state) {
